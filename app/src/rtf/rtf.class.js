@@ -42,7 +42,10 @@ class Rtf {
 
   getRtfContentReferences() {
     let rtfReference = ''
-    this.rtfContentReferences.forEach(value => rtfReference += value.content)
+    this.rtfContentReferences.forEach(value => {
+      rtfReference += value.content;
+      console.log(`.${value.content}.`)
+    })
     return rtfReference
   }
 
@@ -125,13 +128,20 @@ class Rtf {
 
   addContentOfTagInRtfCode(contentOfTag) {
     contentOfTag = MyString.removeCharacterOfEscapeInAllString(contentOfTag, '\n\t')
-
-    if (contentOfTag != undefined && !MyString.hasOnlyWhiteSpace(contentOfTag))
-      this.rtfContentReferences.push({ content: this.addSpaceAroundString(contentOfTag.trimEnd()), tag: false })
+    if (contentOfTag != undefined)
+    {
+      if ((contentOfTag[0] == " ") && !MyString.hasOnlyWhiteSpace(contentOfTag)){
+        this.rtfContentReferences.push({ content: ` ${contentOfTag}`, tag: false })
+      }
+      else
+      {
+        this.rtfContentReferences.push({ content: contentOfTag, tag: false })
+      }
+    }
   }
 
   addSpaceAroundString(contentOfTag) {
-    return ` ${contentOfTag} `
+    return `${contentOfTag}`
   }
 
   setHighlightInRtf() {
