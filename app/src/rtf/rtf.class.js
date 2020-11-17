@@ -127,7 +127,7 @@ class Rtf {
     contentOfTag = MyString.removeCharacterOfEscapeInAllString(contentOfTag, '\n\t')
 
     if (contentOfTag != undefined && !MyString.hasOnlyWhiteSpace(contentOfTag))
-      this.rtfContentReferences.push({ content: this.addSpaceAroundString(contentOfTag), tag: false })
+      this.rtfContentReferences.push({ content: this.addSpaceAroundString(contentOfTag.trimEnd()), tag: false })
   }
 
   addSpaceAroundString(contentOfTag) {
