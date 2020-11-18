@@ -44,7 +44,6 @@ class Rtf {
     let rtfReference = ''
     this.rtfContentReferences.forEach(value => {
       rtfReference += value.content;
-      console.log(`.${value.content}.`)
     })
     return rtfReference
   }
@@ -130,7 +129,7 @@ class Rtf {
     contentOfTag = MyString.removeCharacterOfEscapeInAllString(contentOfTag, '\n\t')
     if (contentOfTag != undefined)
     {
-      if ((contentOfTag[0] == " ") && !MyString.hasOnlyWhiteSpace(contentOfTag)){
+      if ((this.rtfContentReferences[this.rtfContentReferences.length-1].tag) && !MyString.hasOnlyWhiteSpace(contentOfTag)){
         this.rtfContentReferences.push({ content: ` ${contentOfTag}`, tag: false })
       }
       else
