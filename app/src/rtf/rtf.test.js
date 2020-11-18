@@ -165,11 +165,6 @@ describe('RtfTest', () => {
     should(rtf.rtfContentReferences[1].tag).be.false();
   });
 
-  it('addSpaceAroundString()', () => {
-    let rtf = new Rtf();
-    should(rtf.addSpaceAroundString('string of test')).be.equal(' string of test ');
-  });
-
   it('swapHtmlStrangerTags()', () => {
     let rtf = new Rtf();
     let strangerTag = '<my-tag>my data</my-tag>';

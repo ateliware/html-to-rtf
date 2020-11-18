@@ -42,9 +42,7 @@ class Rtf {
 
   getRtfContentReferences() {
     let rtfReference = ''
-    this.rtfContentReferences.forEach(value => {
-      rtfReference += value.content;
-    })
+    this.rtfContentReferences.forEach(value => rtfReference += value.content)
     return rtfReference
   }
 
@@ -137,10 +135,6 @@ class Rtf {
         this.rtfContentReferences.push({ content: contentOfTag, tag: false })
       }
     }
-  }
-
-  addSpaceAroundString(contentOfTag) {
-    return `${contentOfTag}`
   }
 
   setHighlightInRtf() {
