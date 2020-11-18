@@ -125,13 +125,16 @@ class Rtf {
 
   addContentOfTagInRtfCode(contentOfTag) {
     contentOfTag = MyString.removeCharacterOfEscapeInAllString(contentOfTag, '\n\t')
-
-    if (contentOfTag != undefined && !MyString.hasOnlyWhiteSpace(contentOfTag))
-      this.rtfContentReferences.push({ content: this.addSpaceAroundString(contentOfTag), tag: false })
-  }
-
-  addSpaceAroundString(contentOfTag) {
-    return ` ${contentOfTag} `
+    if (contentOfTag != undefined)
+    {
+      if ((this.rtfContentReferences[this.rtfContentReferences.length-1].tag) && !MyString.hasOnlyWhiteSpace(contentOfTag)){
+        this.rtfContentReferences.push({ content: ` ${contentOfTag}`, tag: false })
+      }
+      else
+      {
+        this.rtfContentReferences.push({ content: contentOfTag, tag: false })
+      }
+    }
   }
 
   setHighlightInRtf() {
