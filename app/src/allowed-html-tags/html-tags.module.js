@@ -21,7 +21,7 @@ module.exports = [
       opening: 'div',
       openingRtf: '{\\pard',
       closing: '/div',
-      closingRtf: '\\sb70\\par}'
+      closingRtf: '\\par}'
    },
    {
       opening: 'em',
@@ -39,37 +39,37 @@ module.exports = [
       opening: 'h1',
       openingRtf: '{\\pard',
       closing: '/h1',
-      closingRtf: '\\sb70\\par}'
+      closingRtf: '\\par}'
    },
    {
       opening: 'h2',
       openingRtf: '{\\pard',
       closing: '/h2',
-      closingRtf: '\\sb70\\par}'
+      closingRtf: '\\par}'
    },
    {
       opening: 'h3',
       openingRtf: '{\\pard',
       closing: '/h3',
-      closingRtf: '\\sb70\\par}'
+      closingRtf: '\\par}'
    },
    {
       opening: 'h4',
       openingRtf: '{\\pard',
       closing: '/h4',
-      closingRtf: '\\sb70\\par}'
+      closingRtf: '\\par}'
    },
    {
       opening: 'h5',
       openingRtf: '{\\pard',
       closing: '/h5',
-      closingRtf: '\\sb70\\par}'
+      closingRtf: '\\par}'
    },
    {
       opening: 'h6',
       openingRtf: '{\\pard',
       closing: '/h6',
-      closingRtf: '\\sb70\\par}'
+      closingRtf: '\\par}'
    },
    {
       opening: 'i',
@@ -93,11 +93,11 @@ module.exports = [
       opening: 'p',
       openingRtf: '{\\pard',
       closing: '/p',
-      closingRtf: '\\sb70\\par}'
+      closingRtf: '\\par}'
    },
    {
       opening: 'ol',
-      openingRtf: '{{\\*\\pn\\pnlvlbody\\pnf0\\pnindent0\\pnstart1\\pndec{\\pntxta.}}\\fi-360\\li720\\sa200\\sl276\\slmult1',
+      openingRtf: '{{\\*\\pn\\pnlvlbody\\pnf0\\pnindent0\\pnstart1\\pndec{\\pntxta.}}\\fi-360\\li720',
       closing: '/ol',
       closingRtf: '}'
    },
@@ -175,7 +175,7 @@ module.exports = [
    },
    {
       opening: 'ul',
-      openingRtf: '{{\\*\\pn\\pnlvlblt\\pnf1\\pnindent0{\\pntxtb\\\'B7}}\\fi-360\\li720\\sa200\\sl276\\slmult1\\lang22\\f0\\fs22',
+      openingRtf: '{{\\*\\pn\\pnlvlblt\\pnf1\\pnindent0{\\pntxtb\\\'B7}}\\fi-360\\li720\\lang22\\f0\\fs22',
       closing: '/ul',
       closingRtf: '}'
    },
