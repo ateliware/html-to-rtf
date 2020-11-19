@@ -19,6 +19,7 @@ describe('RtfTest', () => {
     <body>
       <h1>Title <span style="color:rgb(255,0,0);">with</span> tag h1<h1>
       <div id="content">
+        <span style="display:none;">Texto oculto</span>
         <p style="color:#333; margin:5px;" class="test" align="center">text of p<b>start b <i>italic with  bold</i>final text of b</b><i>italic</i>final text of p</p>
         <p style="color:rgb(255,0,0);" align="right">red paragraph => right with tag</p>
         <p style="color:rgb(0,0,255); text-align:center;">blue paragraph => center with style</p>
@@ -51,14 +52,14 @@ describe('RtfTest', () => {
     let html = `<mytag style="color:#333; margin:5px;" class="test" align="center">texto de p<b>negrito <i>italico com  negrito</i>texto final b</b><i>italico</i>texto final de p</mytag>`;
     let rtf = new Rtf();
     Color.cleanColorTable();
-    should(rtf.convertHtmlToRtf(html)).be.equal('{\\rtf1\\deff0{\\fonttbl {\\f0\\fnil\\fcharset0 Arial;}{\\f1\\fnil\\fcharset2 Symbol;}}{\\colortbl ;}{\\*\\defchp \\fs22}{\\colortbl ;\\red51\\green51\\blue51;}{\\pard\\cf1\\qc texto de p {\\b negrito  {\\i italico com  negrito } texto final b }{\\i italico } texto final de p \\sb70\\par}}');
+    should(rtf.convertHtmlToRtf(html)).be.equal('{\\rtf1\\deff0{\\fonttbl {\\f0\\fnil\\fcharset0 Arial;}{\\f1\\fnil\\fcharset2 Symbol;}}{\\colortbl ;}{\\*\\defchp \\fs22}{\\colortbl ;\\red51\\green51\\blue51;}{\\pard\\cf1\\qc texto de p{\\b negrito {\\i italico com  negrito} texto final b}{\\i italico} texto final de p\\sb70\\par}}');
   });
 
   it('convertHtmlToRtf() With stranger tag: <my-tag></my-tag>', () => {
     let html = `<my-tag style="color:#333; margin:5px;" class="test" align="center">texto de p<b>negrito <i>italico com  negrito</i>texto final b</b><i>italico</i>texto final de p</my-tag>`;
     let rtf = new Rtf();
     Color.cleanColorTable();
-    should(rtf.convertHtmlToRtf(html)).be.equal('{\\rtf1\\deff0{\\fonttbl {\\f0\\fnil\\fcharset0 Arial;}{\\f1\\fnil\\fcharset2 Symbol;}}{\\colortbl ;}{\\*\\defchp \\fs22}{\\colortbl ;\\red51\\green51\\blue51;}{\\pard\\cf1\\qc texto de p {\\b negrito  {\\i italico com  negrito } texto final b }{\\i italico } texto final de p \\sb70\\par}}');
+    should(rtf.convertHtmlToRtf(html)).be.equal('{\\rtf1\\deff0{\\fonttbl {\\f0\\fnil\\fcharset0 Arial;}{\\f1\\fnil\\fcharset2 Symbol;}}{\\colortbl ;}{\\*\\defchp \\fs22}{\\colortbl ;\\red51\\green51\\blue51;}{\\pard\\cf1\\qc texto de p{\\b negrito {\\i italico com  negrito} texto final b}{\\i italico} texto final de p\\sb70\\par}}');
   });
 
   for (let index = 0; index <= 5; index++) {
@@ -67,7 +68,7 @@ describe('RtfTest', () => {
       let html = `<${ tagName }>Title <span style="color:rgb(255,0,0);">with</span> tag ${ tagName }<${ tagName }>`;
       let rtf = new Rtf();
       Color.cleanColorTable();
-      should(rtf.convertHtmlToRtf(html)).be.equal(`{\\rtf1\\deff0{\\fonttbl {\\f0\\fnil\\fcharset0 Arial;}{\\f1\\fnil\\fcharset2 Symbol;}}{\\colortbl ;}{\\*\\defchp \\fs22}{\\colortbl ;\\red255\\green0\\blue0;}{\\pard Title  {\\cf1 with }  tag ${ tagName } \\sb70\\par}{\\pard\\sb70\\par}}`);
+      should(rtf.convertHtmlToRtf(html)).be.equal(`{\\rtf1\\deff0{\\fonttbl {\\f0\\fnil\\fcharset0 Arial;}{\\f1\\fnil\\fcharset2 Symbol;}}{\\colortbl ;}{\\*\\defchp \\fs22}{\\colortbl ;\\red255\\green0\\blue0;}{\\pard Title {\\cf1 with}  tag ${ tagName }\\sb70\\par}{\\pard\\sb70\\par}}`);
     });
   }
 
@@ -79,7 +80,7 @@ describe('RtfTest', () => {
     rtf.addContentOfTagInRtfCode('test test test test');
     rtf.addClosingFatherTagInRtfCode('b');
 
-    should(rtf.buildRtf()).be.equal('{\\rtf1\\deff0{\\fonttbl {\\f0\\fnil\\fcharset0 Arial;}{\\f1\\fnil\\fcharset2 Symbol;}}{\\colortbl ;}{\\*\\defchp \\fs22}{\\colortbl ;}{\\b test test test test }}');
+    should(rtf.buildRtf()).be.equal('{\\rtf1\\deff0{\\fonttbl {\\f0\\fnil\\fcharset0 Arial;}{\\f1\\fnil\\fcharset2 Symbol;}}{\\colortbl ;}{\\*\\defchp \\fs22}{\\colortbl ;}{\\b test test test test}}');
   });
 
   it('getRtfContentReferences()', () => {
@@ -89,7 +90,7 @@ describe('RtfTest', () => {
     rtf.addContentOfTagInRtfCode('test test test test');
     rtf.addClosingFatherTagInRtfCode('b');
 
-    should(rtf.getRtfContentReferences()).be.equal('{\\b test test test test }');
+    should(rtf.getRtfContentReferences()).be.equal('{\\b test test test test}');
   });
 
   it('getAmountOfColumnThroughOfFirstChildOfTbodyTag()', () => {
@@ -157,12 +158,20 @@ describe('RtfTest', () => {
     let rtf = new Rtf();
 
     rtf.addContentOfTagInRtfCode('string of test');
-    should(rtf.rtfContentReferences[0].content).be.equal(' string of test ');
+    should(rtf.rtfContentReferences[0].content).be.equal('string of test');
     should(rtf.rtfContentReferences[0].tag).be.false();
 
     rtf.addContentOfTagInRtfCode('string \nof test\t');
-    should(rtf.rtfContentReferences[1].content).be.equal(' string of test ');
+    should(rtf.rtfContentReferences[1].content).be.equal('string of test');
     should(rtf.rtfContentReferences[1].tag).be.false();
+
+    rtf.addContentOfTagInRtfCode(' string of test');
+    should(rtf.rtfContentReferences[2].content).be.equal(' string of test');
+    should(rtf.rtfContentReferences[2].tag).be.false();
+
+    rtf.addContentOfTagInRtfCode(' string of test ');
+    should(rtf.rtfContentReferences[3].content).be.equal(' string of test ');
+    should(rtf.rtfContentReferences[3].tag).be.false();
   });
 
   it('swapHtmlStrangerTags()', () => {
