@@ -5,7 +5,7 @@ describe('HtmlTagsTest', () => {
   it('Length of module', () => {
     should(HtmlTags.length).be.equal(36);
   });
-  
+
   HtmlTags.forEach(element => {
     if(element.opening == 'b') {
       it(`<b></b>`, () => {
@@ -18,15 +18,15 @@ describe('HtmlTagsTest', () => {
     else if(element.opening == 'br') {
       it(`<br> || <br/>`, () => {
         should(element.closing).be.equal('br/');
-        should(element.openingRtf).be.equal('\\line');
-        should(element.closingRtf).be.equal('\\line');
+        should(element.openingRtf).be.equal('\\par');
+        should(element.closingRtf).be.equal('\\par');
       });
     }
 
     else if(element.opening == 'center') {
       it(`<center></center>`, () => {
         should(element.closing).be.equal('/center');
-        should(element.openingRtf).be.equal('{\\pard\\qr');
+        should(element.openingRtf).be.equal('{\\pard\\qc');
         should(element.closingRtf).be.equal('\\par}');
       });
     }

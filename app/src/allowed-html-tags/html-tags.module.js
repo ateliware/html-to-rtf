@@ -7,9 +7,9 @@ module.exports = [
    },
    {
       opening: 'br',
-      openingRtf: '\\line',
+      openingRtf: '\\par',
       closing: 'br/',
-      closingRtf: '\\line'
+      closingRtf: '\\par'
    },
    {
       opening: 'center',
