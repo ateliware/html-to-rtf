@@ -54,8 +54,7 @@ class Rtf {
           this.addOpeningTagInRtfCode(fatherTag.name)
         }
       }
-      else
-      {
+      else{
         this.addOpeningTagInRtfCode(fatherTag.name)
       }
 
@@ -80,19 +79,19 @@ class Rtf {
         else
           this.addContentOfTagInRtfCode(child.data)
       })
-    }
 
-    if (this.insideTable){
-      if ((fatherTag.name.toLowerCase() == 'p') || (fatherTag.name.toLowerCase() == 'br')){
-        return;
+      if (this.insideTable){
+        if ((fatherTag.name.toLowerCase() == 'p') || (fatherTag.name.toLowerCase() == 'br')){
+          return;
+        }
       }
-    }
 
-    if (fatherTag.name.toLowerCase() == 'table'){
-      this.insideTable = false;
-    }
+      if (fatherTag.name.toLowerCase() == 'table'){
+        this.insideTable = false;
+      }
 
-    this.addClosingFatherTagInRtfCode(fatherTag.name)
+      this.addClosingFatherTagInRtfCode(fatherTag.name)
+    }
   }
 
   getTableRowColSpans(children) {
