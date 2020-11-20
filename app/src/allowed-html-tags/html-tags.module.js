@@ -91,9 +91,9 @@ module.exports = [
    },
    {
       opening: 'p',
-      openingRtf: '{\\pard',
+      openingRtf: '\\pard',
       closing: '/p',
-      closingRtf: '\\par}'
+      closingRtf: '\\par'
    },
    {
       opening: 'ol',
@@ -151,13 +151,13 @@ module.exports = [
    },
    {
       opening: 'td',
-      openingRtf: '{\\pard\\intbl\\qc',
+      openingRtf: '{\\pard\\intbl',
       closing: '/td',
       closingRtf: '\\cell}'
    },
    {
       opening: 'th',
-      openingRtf: '{\\pard\\intbl\\qc',
+      openingRtf: '{\\pard\\intbl',
       closing: '/th',
       closingRtf: '\\cell}'
    },

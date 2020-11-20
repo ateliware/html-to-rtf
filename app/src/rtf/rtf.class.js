@@ -49,11 +49,22 @@ class Rtf {
   // Don't has a test
   readAllChildsInTag(fatherTag) {
     if (fatherTag.children != undefined) {
-      this.addOpeningTagInRtfCode(fatherTag.name)
+      if (this.insideTable){
+        if ((fatherTag.name.toLowerCase() != 'br')){
+          this.addOpeningTagInRtfCode(fatherTag.name)
+        }
+      }
+      else
+      {
+        this.addOpeningTagInRtfCode(fatherTag.name)
+      }
+
       this.ifExistsAttributesAddAllReferencesInRtfCode(fatherTag.attribs)
 
-      if (fatherTag.name.toLowerCase() == 'table')
+      if (fatherTag.name.toLowerCase() == 'table'){
         this.Table.setAmountOfColumns(this.getAmountOfColumnThroughOfFirstChildOfTbodyTag(fatherTag.children))
+        this.insideTable = true;
+      }
 
       if (fatherTag.name.toLowerCase() == 'tr'){
         let colSpanArray = this.getTableRowColSpans(fatherTag.children);
@@ -70,6 +81,17 @@ class Rtf {
           this.addContentOfTagInRtfCode(child.data)
       })
     }
+
+    if (this.insideTable){
+      if ((fatherTag.name.toLowerCase() == 'p') || (fatherTag.name.toLowerCase() == 'br')){
+        return;
+      }
+    }
+
+    if (fatherTag.name.toLowerCase() == 'table'){
+      this.insideTable = false;
+    }
+
     this.addClosingFatherTagInRtfCode(fatherTag.name)
   }
 
