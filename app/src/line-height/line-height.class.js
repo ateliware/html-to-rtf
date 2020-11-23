@@ -6,7 +6,7 @@ class LineHeight {
     if (value === "1" || value === "normal")
       return '';
 
-    let convertedValue = parseFloat(value) * 240;
+    let convertedValue = Math.round(parseFloat(value) * 240);
     return LINE_HEIGHT_OPENING + convertedValue + LINE_HEIGHT_MULT;
 
   }
