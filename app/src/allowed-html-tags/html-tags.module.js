@@ -91,9 +91,9 @@ module.exports = [
    },
    {
       opening: 'p',
-      openingRtf: '{\\pard',
+      openingRtf: '\\pard',
       closing: '/p',
-      closingRtf: '\\par}'
+      closingRtf: '\\par'
    },
    {
       opening: 'ol',

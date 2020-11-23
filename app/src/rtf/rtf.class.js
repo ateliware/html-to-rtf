@@ -77,7 +77,6 @@ class Rtf {
           return;
         }
       }
-
       this.addClosingFatherTagInRtfCode(fatherTag.name)
     }
   }
