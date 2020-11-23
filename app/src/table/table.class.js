@@ -1,6 +1,6 @@
 class Table {
   constructor() {
-    this.rtfReferenceRow = '\\clbrdrt\\brdrw15\\brdrs\\clbrdrl\\brdrw15\\brdrs\\clbrdrb\\brdrw15\\brdrs\\clbrdrr\\brdrw15\\brdrs\\cellx';
+    this.rtfReferenceRow = '\\clbrdrt\\brdrw15\\brdrs\\clbrdrl\\brdrw15\\brdrs\\clbrdrb\\brdrw15\\brdrs\\clbrdrr\\clvertalc\\brdrw15\\brdrs\\cellx';
     this.amountOfColumns = 0;
     this.defaultLengthOfPageInTwips = 8500;
   }

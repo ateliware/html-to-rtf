@@ -7,8 +7,8 @@ module.exports = [
    },
    {
       opening: 'br',
-      openingRtf: '\\par',
-      closing: 'br/',
+      openingRtf: '',
+      closing: '/br',
       closingRtf: '\\par'
    },
    {
@@ -154,6 +154,12 @@ module.exports = [
       openingRtf: '{\\pard\\intbl',
       closing: '/td',
       closingRtf: '\\cell}'
+   },
+   {
+      opening: 'table_par',
+      openingRtf: '\\intbl',
+      closing: '/table_par',
+      closingRtf: ''
    },
    {
       opening: 'th',

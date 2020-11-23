@@ -55,6 +55,9 @@ class Rtf {
         if ((fatherTag.name.toLowerCase() != 'br')){
           this.addOpeningTagInRtfCode(fatherTag.name)
         }
+        if ((fatherTag.name.toLowerCase() == 'p')){
+          this.addOpeningTagInRtfCode('table_par')
+        }
       }
       else{
         this.addOpeningTagInRtfCode(fatherTag.name)
@@ -83,7 +86,7 @@ class Rtf {
       })
 
       if (this.insideTable){
-        if (!fatherTag.next && (fatherTag.name.toLowerCase() == 'p') || (fatherTag.name.toLowerCase() == 'br')){
+        if ((fatherTag.next == null || fatherTag.next == undefined) && (fatherTag.name.toLowerCase() == 'p' || fatherTag.name.toLowerCase() == 'br')){
           return;
         }
       }
@@ -177,6 +180,6 @@ class Rtf {
     this.rtfHeaderContent = ''
     this.rtfContentReferences = []
   }
-
 }
+
 module.exports = Rtf
