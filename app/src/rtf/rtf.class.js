@@ -65,12 +65,21 @@ class Rtf {
 
       (fatherTag.children).forEach((child, index) => {
         if (child.type != 'text')
+        {
           this.readAllChildsInTag(child)
+        }
         else
           this.addContentOfTagInRtfCode(child.data)
       })
+
+      if (!fatherTag.next){
+        if ((fatherTag.name.toLowerCase() == 'p') || (fatherTag.name.toLowerCase() == 'br')){
+          return;
+        }
+      }
+
+      this.addClosingFatherTagInRtfCode(fatherTag.name)
     }
-    this.addClosingFatherTagInRtfCode(fatherTag.name)
   }
 
   getTableRowColSpans(children) {
