@@ -18,7 +18,8 @@ class Rtf {
   convertHtmlToRtf(html) {
     let htmlWithoutStrangerTags, $, treeOfTags
 
-    htmlWithoutStrangerTags = this.swapHtmlStrangerTags(html, 'p')
+    let sanitizedHtml = html.replace(/\r?\n|\r/g, '');
+    htmlWithoutStrangerTags = this.swapHtmlStrangerTags(sanitizedHtml, 'p')
     $ = cheerio.load(juice(htmlWithoutStrangerTags))
     treeOfTags = $('html').children()
 
