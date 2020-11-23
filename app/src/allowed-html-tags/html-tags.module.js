@@ -169,7 +169,7 @@ module.exports = [
    },
    {
       opening: 'tr',
-      openingRtf: '{\\trowd\\trgaph10',
+      openingRtf: '{\\trowd\\trpaddb60\\trpaddt20\\trpaddfb3\\trpaddft3',
       closing: '/tr',
       closingRtf: '\\row}'
    },
