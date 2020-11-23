@@ -18,7 +18,9 @@ class Rtf {
   convertHtmlToRtf(html) {
     let htmlWithoutStrangerTags, $, treeOfTags
 
-    htmlWithoutStrangerTags = this.swapHtmlStrangerTags(html, 'p')
+    let sanitizedHtml = html.replace(/\r?\n|\r/g, '');
+    htmlWithoutStrangerTags = this.swapHtmlStrangerTags(sanitizedHtml, 'p')
+
     $ = cheerio.load(juice(htmlWithoutStrangerTags))
     treeOfTags = $('html').children()
 
@@ -81,7 +83,7 @@ class Rtf {
       })
 
       if (this.insideTable){
-        if ((fatherTag.name.toLowerCase() == 'p') || (fatherTag.name.toLowerCase() == 'br')){
+        if (!fatherTag.next && (fatherTag.name.toLowerCase() == 'p') || (fatherTag.name.toLowerCase() == 'br')){
           return;
         }
       }
