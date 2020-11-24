@@ -7,8 +7,8 @@ module.exports = [
    },
    {
       opening: 'br',
-      openingRtf: '\\par',
-      closing: 'br/',
+      openingRtf: '',
+      closing: '/br',
       closingRtf: '\\par'
    },
    {
@@ -91,9 +91,9 @@ module.exports = [
    },
    {
       opening: 'p',
-      openingRtf: '{\\pard',
+      openingRtf: '\\pard',
       closing: '/p',
-      closingRtf: '\\par}'
+      closingRtf: '\\par'
    },
    {
       opening: 'ol',
@@ -151,19 +151,25 @@ module.exports = [
    },
    {
       opening: 'td',
-      openingRtf: '{\\pard\\intbl\\qc',
+      openingRtf: '{\\pard\\intbl',
       closing: '/td',
       closingRtf: '\\cell}'
    },
    {
+      opening: 'table_par',
+      openingRtf: '\\intbl',
+      closing: '/table_par',
+      closingRtf: ''
+   },
+   {
       opening: 'th',
-      openingRtf: '{\\pard\\intbl\\qc',
+      openingRtf: '{\\pard\\intbl',
       closing: '/th',
       closingRtf: '\\cell}'
    },
    {
       opening: 'tr',
-      openingRtf: '{\\trowd\\trgaph10',
+      openingRtf: '{\\trowd\\trpaddb60\\trpaddt20\\trpaddfb3\\trpaddft3',
       closing: '/tr',
       closingRtf: '\\row}'
    },

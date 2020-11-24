@@ -18,7 +18,9 @@ class Rtf {
   convertHtmlToRtf(html) {
     let htmlWithoutStrangerTags, $, treeOfTags
 
-    htmlWithoutStrangerTags = this.swapHtmlStrangerTags(html, 'p')
+    let sanitizedHtml = html.replace(/\r?\n|\r/g, '');
+    htmlWithoutStrangerTags = this.swapHtmlStrangerTags(sanitizedHtml, 'p')
+
     $ = cheerio.load(juice(htmlWithoutStrangerTags))
     treeOfTags = $('html').children()
 
@@ -42,18 +44,37 @@ class Rtf {
 
   getRtfContentReferences() {
     let rtfReference = ''
-    this.rtfContentReferences.forEach(value => rtfReference += value.content)
+    this.rtfContentReferences.forEach(value => {
+      rtfReference += value.content
+    })
     return rtfReference
   }
 
   // Don't has a test
   readAllChildsInTag(fatherTag) {
     if (fatherTag.children != undefined) {
-      this.addOpeningTagInRtfCode(fatherTag.name)
+      if (this.insideTable){
+        if ((fatherTag.name.toLowerCase() != 'br')){
+          this.addOpeningTagInRtfCode(fatherTag.name)
+        }
+        if ((fatherTag.name.toLowerCase() == 'p')){
+          this.addOpeningTagInRtfCode('table_par')
+        }
+      }
+      else{
+        this.addOpeningTagInRtfCode(fatherTag.name)
+      }
+
       this.ifExistsAttributesAddAllReferencesInRtfCode(fatherTag.attribs)
 
-      if (fatherTag.name.toLowerCase() == 'table')
-        this.Table.setAmountOfColumns(this.getAmountOfColumnThroughOfFirstChildOfTbodyTag(fatherTag.children))
+      if (fatherTag.name.toLowerCase() == 'table'){
+        let tableWidth = this.getElementWidth(fatherTag);
+        if (tableWidth == null) {
+          tableWidth = 100;
+        }
+        this.Table.setAmountOfColumns(this.getAmountOfColumnThroughOfFirstChildOfTbodyTag(fatherTag.children), tableWidth)
+        this.insideTable = true;
+      }
 
       if (fatherTag.name.toLowerCase() == 'tr'){
         let colSpanArray = this.getTableRowColSpans(fatherTag.children);
@@ -69,20 +90,45 @@ class Rtf {
         else
           this.addContentOfTagInRtfCode(child.data)
       })
+
+      if (this.insideTable){
+        if ((fatherTag.next == null || fatherTag.next == undefined) && (fatherTag.name.toLowerCase() == 'p' || fatherTag.name.toLowerCase() == 'br')){
+          return;
+        }
+      }
+
+      if (fatherTag.name.toLowerCase() == 'table'){
+        this.insideTable = false;
+      }
+
+      this.addClosingFatherTagInRtfCode(fatherTag.name)
     }
-    this.addClosingFatherTagInRtfCode(fatherTag.name)
   }
 
   getTableRowColSpans(children) {
     let colSpans = []
     children.forEach((child) => {
       if (child.type != 'text')
-        if(child.attribs != undefined && child.attribs.colspan != undefined)
-            colSpans.push(parseInt(child.attribs.colspan))
-          else
-            colSpans.push(1)
+      var width = this.getElementWidth(child);
+      var colspan = 1;
+      if(child.attribs != undefined && child.attribs.colspan != undefined)
+           colspan = parseInt(child.attribs.colspan)
+      colSpans.push({
+        colspan: colspan,
+        width: width
+      });
     });
     return colSpans;
+  }
+
+  getElementWidth(element){
+    if(element.attribs != undefined && element.attribs.style != undefined) {
+      let widthProp = element.attribs.style.match(/width:.\d{1,3}.\d{0,4}/g);
+      if (widthProp && widthProp.length > 0) {
+        return widthProp[0].replace('width:','').trim().replace('%', '');
+      }
+    }
+    return null;
   }
 
   getAmountOfColumnThroughOfFirstChildOfTbodyTag(tableChildren) {
@@ -154,6 +200,6 @@ class Rtf {
     this.rtfHeaderContent = ''
     this.rtfContentReferences = []
   }
-
 }
+
 module.exports = Rtf
