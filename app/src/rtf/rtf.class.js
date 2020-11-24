@@ -44,7 +44,9 @@ class Rtf {
 
   getRtfContentReferences() {
     let rtfReference = ''
-    this.rtfContentReferences.forEach(value => rtfReference += value.content)
+    this.rtfContentReferences.forEach(value => {
+      rtfReference += value.content
+    })
     return rtfReference
   }
 
@@ -66,7 +68,11 @@ class Rtf {
       this.ifExistsAttributesAddAllReferencesInRtfCode(fatherTag.attribs)
 
       if (fatherTag.name.toLowerCase() == 'table'){
-        this.Table.setAmountOfColumns(this.getAmountOfColumnThroughOfFirstChildOfTbodyTag(fatherTag.children))
+        let tableWidth = this.getElementWidth(fatherTag);
+        if (tableWidth == null) {
+          tableWidth = 100;
+        }
+        this.Table.setAmountOfColumns(this.getAmountOfColumnThroughOfFirstChildOfTbodyTag(fatherTag.children), tableWidth)
         this.insideTable = true;
       }
 
@@ -103,12 +109,26 @@ class Rtf {
     let colSpans = []
     children.forEach((child) => {
       if (child.type != 'text')
-        if(child.attribs != undefined && child.attribs.colspan != undefined)
-            colSpans.push(parseInt(child.attribs.colspan))
-          else
-            colSpans.push(1)
+      var width = this.getElementWidth(child);
+      var colspan = 1;
+      if(child.attribs != undefined && child.attribs.colspan != undefined)
+           colspan = parseInt(child.attribs.colspan)
+      colSpans.push({
+        colspan: colspan,
+        width: width
+      });
     });
     return colSpans;
+  }
+
+  getElementWidth(element){
+    if(element.attribs != undefined && element.attribs.style != undefined) {
+      let widthProp = element.attribs.style.match(/width:.\d{1,3}.\d{0,4}/g);
+      if (widthProp && widthProp.length > 0) {
+        return widthProp[0].replace('width:','').trim().replace('%', '');
+      }
+    }
+    return null;
   }
 
   getAmountOfColumnThroughOfFirstChildOfTbodyTag(tableChildren) {
