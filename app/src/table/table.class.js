@@ -32,7 +32,6 @@ class Table {
     let currentPos = 0;
     let fullWidth = 0;
 
-    console.log(cells);
     cells.forEach((cellinfo) => {
       if (cellinfo.width != null){
         fullWidth += parseFloat(cellinfo.width);
