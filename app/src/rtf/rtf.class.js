@@ -122,6 +122,13 @@ class Rtf {
   }
 
   getElementWidth(element){
+    if(element.attribs != undefined && element.attribs.width != undefined) {
+      let widthProp = element.attribs.width;
+      if (widthProp && widthProp.length > 0) {
+        return widthProp.trim().replace('%', '');
+      }
+    }
+
     if(element.attribs != undefined && element.attribs.style != undefined) {
       let widthProp = element.attribs.style.match(/width:.\d{1,3}.\d{0,4}/g);
       if (widthProp && widthProp.length > 0) {
