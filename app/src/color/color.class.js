@@ -14,8 +14,8 @@ class Color {
 
     if(color.includes('#'))
       return this.getColorInColorTable(this.convertColorInHexToRgb(color));
-      
-    return undefined;
+
+    return "";
   }
 
   static getRgbValues(color) {

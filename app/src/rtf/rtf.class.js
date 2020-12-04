@@ -69,7 +69,6 @@ class Rtf {
 
       if (fatherTag.name.toLowerCase() == 'table'){
         let tableWidth = this.getElementWidth(fatherTag);
-        console.log(tableWidth);
         if (tableWidth == null) {
           tableWidth = 100;
         }
