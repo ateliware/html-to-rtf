@@ -38,6 +38,10 @@ class Style {
     return Margin.getRtfMarginTopContent(value);
   }
 
+  static getRtfMarginReference(value) {
+    return Margin.getRtfMarginContent(value);
+  }
+
   static getRtfLineHeightReference(value) {
     return LineHeight.getRtfLineHeigthContent(value);
   }
@@ -64,6 +68,7 @@ class Style {
           case 'margin-top': listOfRtfReferences  += this.getRtfMarginTopReference($(fictitiousTagWithTruthStyle).css(value.propertyName)); break;
           case 'line-height': listOfRtfReferences  += this.getRtfLineHeightReference($(fictitiousTagWithTruthStyle).css(value.propertyName)); break;
           case 'font-weight': listOfRtfReferences  += this.getRtfFontWeightReference($(fictitiousTagWithTruthStyle).css(value.propertyName)); break;
+          case 'margin': listOfRtfReferences  += this.getRtfMarginReference($(fictitiousTagWithTruthStyle).css(value.propertyName)); break;
         }
       }
     });
