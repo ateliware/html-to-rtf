@@ -23,25 +23,30 @@ class Margin {
   }
 
   static getRtfMarginContent(value) {
-    let marginTop = value.split(' ')[0];
-    let marginBottom = value.split(' ')[2];
-    
-    if (marginTop != '0pt' && marginBottom != '0pt') {
-      return this.getRtfMarginTopAndBottomContent(marginTop, marginBottom);
-    } else if (marginTop != '0pt') {
-      return this.getRtfMarginTopContent(marginTop);
+    let marginShorthand = value.split(' ').length
+
+    if (marginShorthand == 3 || marginShorthand == 4) {
+      return this.marginTopAndBottomHandler(value.split(' ')[0], value.split(' ')[2]);
     } else {
-      return this.getRtfMarginBottomContent(marginBottom);
-    }
+        return this.marginTopAndBottomHandler(value.split(' ')[0], value.split(' ')[0]);
+      }
   }
 
-  static getRtfMarginTopAndBottomContent(top, bottom) {
+  static marginTopAndBottomHandler(top, bottom) {
     let marginTopSize = top.replace('pt', '');
     let marginBottomSize = bottom.replace('pt', '');
 
-    let convertedTopValue = parseInt(marginTopSize) * 20;
-    let convertedBottomValue = parseInt(marginBottomSize) * 20;
-    return MARGIN_TOP_OPENING + convertedTopValue + MARGIN_BOTTOM_OPENING + convertedBottomValue;
+    if (marginTopSize === "0" && marginBottomSize === "0") {
+      return ''
+    } else if (marginTopSize != "0" && marginBottomSize === "0") {
+        return this.getRtfMarginTopContent(marginTopSize);
+    } else if (marginTopSize === "0" && marginBottomSize != "0") {
+        return this.getRtfMarginBottomContent(marginBottomSize);
+    } else {
+        let convertedTopValue = parseInt(marginTopSize) * 20;
+        let convertedBottomValue = parseInt(marginBottomSize) * 20;
+        return MARGIN_TOP_OPENING + convertedTopValue + MARGIN_BOTTOM_OPENING + convertedBottomValue;
+    }    
   }
 }
 
