@@ -6,5 +6,7 @@ module.exports = [
   { propertyName: 'display', allowed: true},
   { propertyName: 'margin-bottom', allowed: true},
   { propertyName: 'margin-top', allowed: true},
-  { propertyName: 'line-height', allowed: true}
+  { propertyName: 'line-height', allowed: true},
+  { propertyName: 'font-weight', allowed: true},
+  { propertyName: 'margin', allowed: true}
 ];

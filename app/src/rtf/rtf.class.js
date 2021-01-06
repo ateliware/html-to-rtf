@@ -88,7 +88,7 @@ class Rtf {
         if (child.type != 'text')
           this.readAllChildsInTag(child)
         else
-          this.addContentOfTagInRtfCode(child.data)
+          this.addContentOfTagInRtfCode(child)
       })
 
       if (this.insideTable){
@@ -177,12 +177,16 @@ class Rtf {
     this.addReferenceTagInRtfCode(AllowedHtmlTags.getRtfReferenceTag(`/${closingFatherTag}`))
   }
 
-  addContentOfTagInRtfCode(contentOfTag) {
-    contentOfTag = MyString.removeCharacterOfEscapeInAllString(contentOfTag, '\n\t')
+  addContentOfTagInRtfCode(child) {
+    let contentOfTag = MyString.removeCharacterOfEscapeInAllString(child.data, '\n\t')
     if (contentOfTag != undefined)
     {
       if ((this.rtfContentReferences[this.rtfContentReferences.length-1].tag) && !MyString.hasOnlyWhiteSpace(contentOfTag)){
-        this.rtfContentReferences.push({ content: ` ${contentOfTag}`, tag: false })
+        if (child.parent.name === 'span' && child.parent.attribs.class === 'template-input') {
+          this.rtfContentReferences.push({ content: `${contentOfTag}`, tag: false })
+        } else {
+          this.rtfContentReferences.push({ content: ` ${contentOfTag}`, tag: false })
+        }
       }
       else
       {

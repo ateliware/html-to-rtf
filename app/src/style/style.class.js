@@ -7,7 +7,7 @@ const AllowedStyleProperties = require('../allowed-style-properties/allowed-styl
 const Display = require('../display/display.class');
 const Margin = require('../margin/margin.class');
 const LineHeight = require('../line-height/line-height.class');
-
+const FontWeight = require('../font-weight/font-weight.class');
 
 class Style {
   static getRtfReferenceColor(value) {
@@ -38,8 +38,16 @@ class Style {
     return Margin.getRtfMarginTopContent(value);
   }
 
+  static getRtfMarginReference(value) {
+    return Margin.getRtfMarginContent(value);
+  }
+
   static getRtfLineHeightReference(value) {
     return LineHeight.getRtfLineHeigthContent(value);
+  }
+
+  static getRtfFontWeightReference(value) {
+    return FontWeight.getRtfFontWeightContent(value);
   }
 
   static getRtfReferencesInStyleProperty(styleValue) {
@@ -59,6 +67,8 @@ class Style {
           case 'margin-bottom': listOfRtfReferences  += this.getRtfMarginBottomReference($(fictitiousTagWithTruthStyle).css(value.propertyName)); break;
           case 'margin-top': listOfRtfReferences  += this.getRtfMarginTopReference($(fictitiousTagWithTruthStyle).css(value.propertyName)); break;
           case 'line-height': listOfRtfReferences  += this.getRtfLineHeightReference($(fictitiousTagWithTruthStyle).css(value.propertyName)); break;
+          case 'font-weight': listOfRtfReferences  += this.getRtfFontWeightReference($(fictitiousTagWithTruthStyle).css(value.propertyName)); break;
+          case 'margin': listOfRtfReferences  += this.getRtfMarginReference($(fictitiousTagWithTruthStyle).css(value.propertyName)); break;
         }
       }
     });

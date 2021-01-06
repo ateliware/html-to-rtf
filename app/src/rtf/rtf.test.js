@@ -52,14 +52,14 @@ describe('RtfTest', () => {
     let html = `<mytag style="color:#333; margin:5px;" class="test" align="center">texto de p<b>negrito <i>italico com  negrito</i>texto final b</b><i>italico</i>texto final de p</mytag>`;
     let rtf = new Rtf();
     Color.cleanColorTable();
-    should(rtf.convertHtmlToRtf(html)).be.equal('{\\rtf1\\deff0{\\fonttbl {\\f0\\fnil\\fcharset0 Arial;}{\\f1\\fnil\\fcharset2 Symbol;}}{\\colortbl ;}{\\*\\defchp \\fs22}{\\colortbl ;\\red51\\green51\\blue51;}{\\pard\\cf1\\qc texto de p{\\b negrito {\\i italico com  negrito} texto final b}{\\i italico} texto final de p\\sb70\\par}}');
+    should(rtf.convertHtmlToRtf(html)).be.equal('{\\rtf1\\deff0{\\fonttbl {\\f0\\fnil\\fcharset0 Arial;}{\\f1\\fnil\\fcharset2 Symbol;}}{\\colortbl ;}{\\*\\defchp \\fs22}{\\colortbl ;\\red51\\green51\\blue51;}{\\pard\\cf1\\sb100\\sa100\\qc texto de p{\\b negrito {\\i italico com  negrito} texto final b}{\\i italico} texto final de p\\sb70\\par}}');
   });
 
   it('convertHtmlToRtf() With stranger tag: <my-tag></my-tag>', () => {
     let html = `<my-tag style="color:#333; margin:5px;" class="test" align="center">texto de p<b>negrito <i>italico com  negrito</i>texto final b</b><i>italico</i>texto final de p</my-tag>`;
     let rtf = new Rtf();
     Color.cleanColorTable();
-    should(rtf.convertHtmlToRtf(html)).be.equal('{\\rtf1\\deff0{\\fonttbl {\\f0\\fnil\\fcharset0 Arial;}{\\f1\\fnil\\fcharset2 Symbol;}}{\\colortbl ;}{\\*\\defchp \\fs22}{\\colortbl ;\\red51\\green51\\blue51;}{\\pard\\cf1\\qc texto de p{\\b negrito {\\i italico com  negrito} texto final b}{\\i italico} texto final de p\\sb70\\par}}');
+    should(rtf.convertHtmlToRtf(html)).be.equal('{\\rtf1\\deff0{\\fonttbl {\\f0\\fnil\\fcharset0 Arial;}{\\f1\\fnil\\fcharset2 Symbol;}}{\\colortbl ;}{\\*\\defchp \\fs22}{\\colortbl ;\\red51\\green51\\blue51;}{\\pard\\cf1\\sb100\\sa100\\qc texto de p{\\b negrito {\\i italico com  negrito} texto final b}{\\i italico} texto final de p\\sb70\\par}}');
   });
 
   for (let index = 0; index <= 5; index++) {
@@ -68,16 +68,25 @@ describe('RtfTest', () => {
       let html = `<${ tagName }>Title <span style="color:rgb(255,0,0);">with</span> tag ${ tagName }<${ tagName }>`;
       let rtf = new Rtf();
       Color.cleanColorTable();
-      should(rtf.convertHtmlToRtf(html)).be.equal(`{\\rtf1\\deff0{\\fonttbl {\\f0\\fnil\\fcharset0 Arial;}{\\f1\\fnil\\fcharset2 Symbol;}}{\\colortbl ;}{\\*\\defchp \\fs22}{\\colortbl ;\\red255\\green0\\blue0;}{\\pard Title {\\cf1 with}  tag ${ tagName }\\sb70\\par}{\\pard\\sb70\\par}}`);
+      should(rtf.convertHtmlToRtf(html)).be.equal(`{\\rtf1\\deff0{\\fonttbl {\\f0\\fnil\\fcharset0 Arial;}{\\f1\\fnil\\fcharset2 Symbol;}}{\\colortbl ;}{\\*\\defchp \\fs22}{\\colortbl ;\\red255\\green0\\blue0;}{\\pard Title {\\cf1 with}  tag ${ tagName }\\par}{\\pard\\par}}`);
     });
   }
 
   it('buildRtf()', () => {
     let rtf = new Rtf();
+    let child = {
+      data: 'test test test test',
+      parent:{
+        name: 'span',
+        attribs:{
+          class: null
+        }
+      }
+    };
 
     Color.cleanColorTable();
     rtf.addOpeningTagInRtfCode('b');
-    rtf.addContentOfTagInRtfCode('test test test test');
+    rtf.addContentOfTagInRtfCode(child);
     rtf.addClosingFatherTagInRtfCode('b');
 
     should(rtf.buildRtf()).be.equal('{\\rtf1\\deff0{\\fonttbl {\\f0\\fnil\\fcharset0 Arial;}{\\f1\\fnil\\fcharset2 Symbol;}}{\\colortbl ;}{\\*\\defchp \\fs22}{\\colortbl ;}{\\b test test test test}}');
@@ -85,9 +94,17 @@ describe('RtfTest', () => {
 
   it('getRtfContentReferences()', () => {
     let rtf = new Rtf();
-
+    let child = {
+      data: 'test test test test',
+      parent:{
+        name: 'span',
+        attribs:{
+          class: null
+        }
+      }
+    };
     rtf.addOpeningTagInRtfCode('b');
-    rtf.addContentOfTagInRtfCode('test test test test');
+    rtf.addContentOfTagInRtfCode(child);
     rtf.addClosingFatherTagInRtfCode('b');
 
     should(rtf.getRtfContentReferences()).be.equal('{\\b test test test test}');
@@ -123,7 +140,7 @@ describe('RtfTest', () => {
     atributes.style = 'background: #333; color: #333; margin: 5px; text-align: center; padding: 2px;';
     rtf.ifExistsAttributesAddAllReferencesInRtfCode(atributes);
 
-    should(rtf.getRtfContentReferences()).be.equal('\\cf1\\qc');
+    should(rtf.getRtfContentReferences()).be.equal('\\cf1\\qc\\sb100\\sa100');
   });
 
   it('addReferenceTagInRtfCode()', () => {
@@ -142,7 +159,7 @@ describe('RtfTest', () => {
     let rtf = new Rtf();
 
     rtf.addOpeningTagInRtfCode('p');
-    should(rtf.rtfContentReferences[0].content).be.equal('{\\pard');
+    should(rtf.rtfContentReferences[0].content).be.equal('\\pard');
     should(rtf.rtfContentReferences[0].tag).be.true();
   });
 
@@ -150,28 +167,46 @@ describe('RtfTest', () => {
     let rtf = new Rtf();
 
     rtf.addClosingFatherTagInRtfCode('p');
-    should(rtf.rtfContentReferences[0].content).be.equal('\\sb70\\par}');
+    should(rtf.rtfContentReferences[0].content).be.equal('\\par');
     should(rtf.rtfContentReferences[0].tag).be.true();
   });
 
-  it('addContentOfTagInRtfCode()', () => {
+  it('addContentOfTagInRtfCode() without template-input class', () => {
     let rtf = new Rtf();
+    let child = {
+      data: 'string of test',
+      parent:{
+        name: 'span',
+        attribs:{
+          class: null
+        }
+      }
+    };
 
-    rtf.addContentOfTagInRtfCode('string of test');
-    should(rtf.rtfContentReferences[0].content).be.equal('string of test');
-    should(rtf.rtfContentReferences[0].tag).be.false();
+    rtf.addOpeningTagInRtfCode('p');
+    rtf.addContentOfTagInRtfCode(child);
+    
+    should(rtf.rtfContentReferences[1].content).be.equal(' string of test');
+    should(rtf.rtfContentReferences[1].tag).be.false();
+  });
 
-    rtf.addContentOfTagInRtfCode('string \nof test\t');
+  it('addContentOfTagInRtfCode() with template-input class', () => {
+    let rtf = new Rtf();
+    let child = {
+      data: 'string of test',
+      parent:{
+        name: 'span',
+        attribs:{
+          class: 'template-input'
+        }
+      }
+    };
+
+    rtf.addOpeningTagInRtfCode('p');
+    rtf.addContentOfTagInRtfCode(child);
+    
     should(rtf.rtfContentReferences[1].content).be.equal('string of test');
     should(rtf.rtfContentReferences[1].tag).be.false();
-
-    rtf.addContentOfTagInRtfCode(' string of test');
-    should(rtf.rtfContentReferences[2].content).be.equal(' string of test');
-    should(rtf.rtfContentReferences[2].tag).be.false();
-
-    rtf.addContentOfTagInRtfCode(' string of test ');
-    should(rtf.rtfContentReferences[3].content).be.equal(' string of test ');
-    should(rtf.rtfContentReferences[3].tag).be.false();
   });
 
   it('swapHtmlStrangerTags()', () => {
