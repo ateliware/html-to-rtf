@@ -181,7 +181,10 @@ class Rtf {
     let contentOfTag = MyString.removeCharacterOfEscapeInAllString(child.data, '\n\t')
     if (contentOfTag != undefined)
     {
-      if ((this.rtfContentReferences[this.rtfContentReferences.length-1].tag) && !MyString.hasOnlyWhiteSpace(contentOfTag)){
+      if ((this.rtfContentReferences[this.rtfContentReferences.length-1].tag)
+          && (this.rtfContentReferences[this.rtfContentReferences.length-1].content != "{")
+          && (this.rtfContentReferences[this.rtfContentReferences.length-1].content != "}")
+          && !MyString.hasOnlyWhiteSpace(contentOfTag)){
         if (child.parent.name === 'span' && child.parent.attribs.class === 'template-input') {
           this.rtfContentReferences.push({ content: `${contentOfTag}`, tag: false })
         } else {
